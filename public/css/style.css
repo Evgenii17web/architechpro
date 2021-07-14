@@ -1,0 +1,64 @@
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+p{
+    margin-bottom: 0;
+}
+.weather-block{
+    width: 210px;
+    height: 110px;
+    display: flex;
+    align-items: center;
+}
+.weather-block__geo{
+    width: 55%;
+    height: 100%;
+    padding: 12px;
+    background: #292929;
+}
+.weather-block__geo p{
+    font-family: 'Roboto', sans-serif;
+    text-align: center;
+    color: white;
+    text-transform: uppercase;
+}
+.weather-block__degrees{
+    font-size: 35px;
+    margin-bottom: 10px;
+}
+.weather-block__city{
+    font-size: 17px;
+    font-weight: 700;
+}
+.weather-block__feeling{
+    display: flex;
+    flex-direction: column;
+    width: 45%;
+}
+.weather-block__precipitation{
+    background: #2AB2EA;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px;
+}
+.weather-block__precipitation img{
+    height: 15px;
+    color: white;
+    margin-right: 2px;
+}
+.weather-block__mercury-column, .weather-block__wind{
+    display: flex;
+    align-items: center;
+}
+.info{
+    font-family: 'Roboto', sans-serif;
+    font-size: 8px;
+    text-align: center;
+    color: white;
+    text-transform: uppercase;
+    font-weight: 600;
+}
