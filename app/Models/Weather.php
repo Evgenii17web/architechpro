@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Http;
 
 class Weather extends Model
 {
@@ -18,7 +19,7 @@ class Weather extends Model
         $this->lng = $lng;
     }
 
-    public function getWeather()
+    public function getCurlWeather()
     {
         $curl = curl_init();
         curl_setopt_array($curl, [
@@ -42,22 +43,32 @@ class Weather extends Model
         } else {
             $response = json_decode($response, true);
 
-            $icon = $this->getIcon($response['data']['icon']);
-            $temperatureInCelsius = ceil(($response['data']['temperature'] - 32) / 1.8);
-
-            return [
-                'title' => $this->title,
-                'icon' => $icon,
-                'temperature' => $temperatureInCelsius,
-                'humidity' => $response['data']['humidity'],
-                'windSpeed' => $response['data']['windSpeed'],
-            ];
+            return $this->getData($response);
         }
     }
 
-    private function farToCel()
+    public function getHttpWeather(): array
     {
-        // (°F - 32) / 1.8 = °C
+        $response = Http::withHeaders([
+            "x-api-key" => "94255c6cbf61e210acde0f12fa5435a4b6ba5e5cbdce7d6d4d95df2b30392e40"
+        ])->get('https://api.ambeedata.com/weather/latest/by-lat-lng?lat=49.9935&lng=36.2304');
+        $response = json_decode($response, true);
+
+        return $this->getData($response);
+    }
+
+    private function getData(array $response): array
+    {
+        $icon = $this->getIcon($response['data']['icon']);
+        $temperatureInCelsius = ceil(($response['data']['temperature'] - 32) / 1.8);
+
+        return [
+            'title' => $this->title,
+            'icon' => $icon,
+            'temperature' => $temperatureInCelsius,
+            'humidity' => $response['data']['humidity'],
+            'windSpeed' => $response['data']['windSpeed'],
+        ];
     }
 
     private function getIcon(string $icon): string

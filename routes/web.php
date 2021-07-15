@@ -20,3 +20,4 @@ Route::get('/', function () {
 
 Route::get('/{city}', [WeatherController::class, 'weather']);
 
+
