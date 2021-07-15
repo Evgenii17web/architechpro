@@ -19,6 +19,9 @@ class Weather extends Model
         $this->lng = $lng;
     }
 
+    /**
+     * @return array|string
+     */
     public function getCurlWeather()
     {
         $curl = curl_init();
@@ -60,15 +63,19 @@ class Weather extends Model
     private function getData(array $response): array
     {
         $icon = $this->getIcon($response['data']['icon']);
-        $temperatureInCelsius = ceil(($response['data']['temperature'] - 32) / 1.8);
 
         return [
             'title' => $this->title,
             'icon' => $icon,
-            'temperature' => $temperatureInCelsius,
+            'temperature' => $this->getTemperatureInCelsius($response),
             'humidity' => $response['data']['humidity'],
             'windSpeed' => $response['data']['windSpeed'],
         ];
+    }
+
+    private function getTemperatureInCelsius(array $response) : int
+    {
+        return ceil(($response['data']['temperature'] - 32) / 1.8);
     }
 
     private function getIcon(string $icon): string

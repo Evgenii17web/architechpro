@@ -6,6 +6,10 @@ use App\Models\Weather;
 
 class WeatherController extends Controller
 {
+    /**
+     * @param string $city
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     */
     public function weather(string $city)
     {
         switch ($city) {
@@ -16,9 +20,7 @@ class WeatherController extends Controller
                 $weather = new Weather('Lviv', 49.8397, 24.0297);
                 return view('main', $weather->getHttpWeather());
             default:
-                return 'Error';
+                abort(404, 'Error');
         }
     }
 }
-
-
